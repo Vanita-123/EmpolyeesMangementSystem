@@ -6,11 +6,11 @@ const router = express.Router();
 // })
 
 // router.post("/", (req,res)=>{
-//     res.send("hello world");
+//     res.send("hello world"); 
 // })
 router.post("/create", CreateEmpolyee)
 router.get("/get", getAllEmpolyee)
 router.get("/get/:id", EmployeId)
-router.delete("/:id", deleteEmployeId) 
+router.delete("/:id", deleteEmployeId)   
 router.put("/:id", updateEmployeId)
 export default router;

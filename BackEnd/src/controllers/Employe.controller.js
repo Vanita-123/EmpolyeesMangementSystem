@@ -25,50 +25,91 @@ import EmployeeModel from "../models/Employee.model.js";
 }    
 
 
+// export const getAllEmpolyee =async (req, res)=>{
+//     try {
+//         let {page,limit, search}= req.query;
+//         page =parseInt(page) ||1;
+//         limit =parseInt(limit) ||5;
+//         const skip = (page-1)*limit;
+//         let serachCriteria={};
+//         if(search){
+//             serachCriteria={
+//                 name:{
+//                     $regex:search, 
+//                     $option:"i"
+//                 }
+//             }
+//         }
+//         const TotalEmpolyes = await EmployeeModel.countDocuments(serachCriteria);
+//     const body = req.body;
+//     const emps=  await EmployeeModel.find(serachCriteria)
+//     .skip(skip)
+//     .limit(limit)
+//     .sort({updated:-1}) 
+//     const TotalPages =Math.ceil(TotalEmpolyes/limit)
+//     res.status(200).json({message:"getAllEmployees Successfully!",
+//          data:{ 
+//         Employees:emps,
+//         pagination:{
+//             TotalEmpolyes,
+//             currentPage:page,    
+//             TotalPages, 
+//             pageSize:limit 
+//         }
+//     }
 
-export const getAllEmpolyee =async (req, res)=>{
-    try {
-        let {page,limit, search}= req.query;
-        page =parseInt(page) ||1;
-        limit =parseInt(limit) ||5;
-        const skip = (page-1)*limit;
-        let serachCriteria={};
-        if(search){
-            serachCriteria={
-                name:{
-                    $regex:search,
-                    $option:'i'
-                }
-            }
-        }
-        const TotalEmpolyes = await EmployeeModel.countDocuments(serachCriteria);
-    const body = req.body;
-    const emps=  await EmployeeModel.find(serachCriteria)
-    .skip(skip)
-    .limit(limit)
-    .sort({updated:-1}) 
-    const TotalPages =Math.ceil(TotalEmpolyes/limit)
-    res.status(201).json({message:"getAllEmployees Successfully!", data:{
-        pagination:{
-            TotalEmpolyes,
-            currentPage:page,    
-            TotalPages,
-            pageSize:limit 
-        }
-    }
-
-    })
-//  console.log(req.body);
-//  res.send("got it")
-    } catch (error) {
-     console.log(error)
-        res.status(500).json({message :"Internal server Error"})
+// })
+// } catch (error) {
+//         console.log(error)
+//         res.status(500).json({message :"Internal server Error", success:false})
         
+//     }
+// }    
+
+  
+export const getAllEmployees = async (req, res) => {
+    try {
+      let { page, limit, search } = req.query;
+      page = parseInt(page) || 1;
+      limit = parseInt(limit) || 5;
+      const skip = (page - 1) * limit;
+      let searchCriteria = {};
+  
+      if (search) {
+        searchCriteria = {
+          name: {
+            $regex: search,
+            $options: "i" // Fixed typo
+          }
+        };
+      }
+  
+      const totalEmployees = await EmployeeModel.countDocuments(searchCriteria);
+      const emps = await EmployeeModel.find(searchCriteria) 
+        .skip(skip)
+        .limit(limit)
+        .sort({ updated: -1 });
+  
+      const totalPages = Math.ceil(totalEmployees / limit);
+      res.status(200).json({
+        message: "Get all employees successfully!",
+        success: true, // Added success indicator
+        data: {
+          Employees: emps,
+          pagination: {
+            TotalEmployees: totalEmployees, // Fixed typo
+            currentPage: page,
+            TotalPages: totalPages,
+            pageSize: limit
+          }
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal server error", success: false });
     }
-}    
-
-
-
+  };
+  
 
 export const EmployeId =async (req, res)=>{
     try {
