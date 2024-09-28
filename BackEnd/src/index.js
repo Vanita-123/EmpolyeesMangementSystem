@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import databaseConnect from './db/database.js';
 import router from './routes/employee.routes.js';
 import bodyParser from 'body-parser';
+import cors from 'cors'
 const app= express();
 
  dotenv.config({
@@ -12,6 +13,7 @@ const Port = process.env.Port || 4001;
 app.get("/", (req,res)=>{
     res.send("hello");
 })
+app.use(cors());
 app.use(bodyParser.json()); 
 // router
 app.use("/Employees", router)

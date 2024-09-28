@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import Employees from "./Components/Employees"
 import EmployeesDetails from "./Components/EmpolyeesDetails"
 
+
 function App() {
   return (
     <div>
@@ -18,3 +19,19 @@ function App() {
 }
 
 export default App
+
+
+
+
+
+
+// function App() {
+//   return (
+//     <div>
+//    <Employees/>
+//    {/* <EmployeesDetails/>      */}
+//      </div>
+//   )
+// }
+
+// export default App

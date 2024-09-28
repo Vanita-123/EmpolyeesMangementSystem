@@ -23,55 +23,12 @@ import EmployeeModel from "../models/Employee.model.js";
         
     }
 }    
-
-
-// export const getAllEmpolyee =async (req, res)=>{
-//     try {
-//         let {page,limit, search}= req.query;
-//         page =parseInt(page) ||1;
-//         limit =parseInt(limit) ||5;
-//         const skip = (page-1)*limit;
-//         let serachCriteria={};
-//         if(search){
-//             serachCriteria={
-//                 name:{
-//                     $regex:search, 
-//                     $option:"i"
-//                 }
-//             }
-//         }
-//         const TotalEmpolyes = await EmployeeModel.countDocuments(serachCriteria);
-//     const body = req.body;
-//     const emps=  await EmployeeModel.find(serachCriteria)
-//     .skip(skip)
-//     .limit(limit)
-//     .sort({updated:-1}) 
-//     const TotalPages =Math.ceil(TotalEmpolyes/limit)
-//     res.status(200).json({message:"getAllEmployees Successfully!",
-//          data:{ 
-//         Employees:emps,
-//         pagination:{
-//             TotalEmpolyes,
-//             currentPage:page,    
-//             TotalPages, 
-//             pageSize:limit 
-//         }
-//     }
-
-// })
-// } catch (error) {
-//         console.log(error)
-//         res.status(500).json({message :"Internal server Error", success:false})
-        
-//     }
-// }    
-
   
-export const getAllEmployees = async (req, res) => {
+export const getAllEmployee = async (req, res) => {
     try {
       let { page, limit, search } = req.query;
       page = parseInt(page) || 1;
-      limit = parseInt(limit) || 5;
+      limit = parseInt(limit) || 5; 
       const skip = (page - 1) * limit;
       let searchCriteria = {};
   
@@ -79,7 +36,7 @@ export const getAllEmployees = async (req, res) => {
         searchCriteria = {
           name: {
             $regex: search,
-            $options: "i" // Fixed typo
+            $options: "i"
           }
         };
       }
@@ -95,17 +52,17 @@ export const getAllEmployees = async (req, res) => {
         message: "Get all employees successfully!",
         success: true, // Added success indicator
         data: {
-          Employees: emps,
-          pagination: {
+          employees: emps,
+          pagination: { 
             TotalEmployees: totalEmployees, // Fixed typo
             currentPage: page,
-            TotalPages: totalPages,
+            TotalPages: totalPages, 
             pageSize: limit
           }
-        }
+        } 
       });
     } catch (error) {
-      console.log(error);
+      console.log("error", error);
       res.status(500).json({ message: "Internal server error", success: false });
     }
   };
