@@ -8,17 +8,17 @@ const EmployeeSchema = mongoose.Schema({
     name:{
         type :String,
         require:true,
-        unique :true
+        // unique :true
     },
     email:{
         type :String,
         require:true,
-        unique :true,
-        lowerCase:true
+        // unique :true,
+        // lowerCase:true
     },
     phone:{
         type :Number,
-        unique :true, 
+        // unique :true, 
         require:true,
     },
     salary:{
@@ -47,3 +47,6 @@ const EmployeeSchema = mongoose.Schema({
 const EmployeeModel =mongoose.model("EmployeeModel"  ,EmployeeSchema);
 
 export default EmployeeModel
+
+
+

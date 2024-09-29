@@ -1,28 +1,27 @@
-import EmployeeModel from "../models/Employee.model.js";
+import EmployeeModel from "../models/Employee.model.js";  
 
-// import EmployeeModel from "../models/Employee.model";
- export const CreateEmpolyee =async (req, res)=>{
+export const CreateEmpolyee = async (req, res) => {
+  try {
     const body = req.body;
-    const emp= new EmployeeModel(body); 
+    const emp = new EmployeeModel(body);
     await emp.save();
-    res.status(201).json({message:"Employees created Successfully!",
-        Employee:{
-            _id:emp.id,
-            name:emp.name,
-            email:emp.email,
-            phone:emp.phone,
-            salary:emp.salary,
-            department:emp.department,
-        }
-    })
-//  console.log(req.body);
-//  res.send("got it")
-    try {
-        res.status(500).json({message :"Internal server Error"})
-    } catch (error) {
-        
-    }
-}    
+    res.status(201).json({
+      message: "Employee created successfully!",
+      success: true,
+      Employee: {
+        _id: emp.id,
+        name: emp.name,
+        email: emp.email,
+        phone: emp.phone,
+        salary: emp.salary,
+        department: emp.department,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error", error, success: false });
+  }
+};
+
   
 export const getAllEmployee = async (req, res) => {
     try {

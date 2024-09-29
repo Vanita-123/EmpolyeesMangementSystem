@@ -31,9 +31,13 @@ console.log("json",data);
         fetchEmployees();
     },[])
 
-    const handleAddEmployee =()=>{
-      setshowModel(true)
-      console.log("hello")
+    const handleAddEmployee =(empObj)=>{
+      // setshowModel(true)
+      console.log(empObj)
+    
+    }
+    const handleedit =()=>{
+      setshowModel()
     }
     return (
         <div className=" flex  justify-center text-center align-middle my-5 items-center">
@@ -46,11 +50,16 @@ console.log("json",data);
         <input className="border border-spacing-2 rounded-xl px-1 border-zinc-700" type="text" placeholder="Search Employees" />
       </div>
      <EmpolyeesTable
+     handleedit={handleedit}
      fetchEmployees={fetchEmployees}
      employees={Employeesdata.employees}
      pagination={Employeesdata.pagination}
      />
-     <AddEmployees showModel={showModel}/>
+     <AddEmployees
+     fetchEmployees={fetchEmployees}
+      showModel={showModel}
+       setshowModel={setshowModel}
+     />
      </div>
      </div>
       </div>
