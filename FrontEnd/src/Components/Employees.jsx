@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react"
 import EmpolyeesTable from "./EmpolyeesTable"
-import { GetEmplyees } from "./api/GetEmployees"
+import { DeleteEmplyeesById, GetEmplyees } from "./api/GetEmployees"
 import AddEmployees from "./AddEmployees"
+import { IoIosSearch } from "react-icons/io";
+import toast from "react-hot-toast";
 function Employees(){
+  const[editEmpobj , seteditEmpobj] =useState(null)
   const [showModel, setshowModel] =useState(false)
  const [Employeesdata, setEmployeesdata] =useState({
 
@@ -31,31 +34,56 @@ console.log("json",data);
         fetchEmployees();
     },[])
 
-    const handleAddEmployee =(empObj)=>{
-      // setshowModel(true)
-      console.log(empObj)
-    
+    const handleAddEmployee =()=>{
+      setshowModel(true)
+      // console.log(empObj)
+      
     }
-    const handleedit =()=>{
-      setshowModel()
+    const handleedit =(empObj)=>{
+      setshowModel(true)
+        // console.log("hello")
+      seteditEmpobj(empObj)
+      console.log("EditObject" ,empObj)
+    }
+    const handledelete = async(emp)=>{
+      try {
+        const {success, message} = await DeleteEmplyeesById(emp._id)
+       if(success){
+          toast.success("success" ,success)
+         }
+         else{
+         toast.success( "Sucessfully! deleted " ,message)
+           }
+      }        catch(error){
+        console.log(error)
+      }
+    }
+    const handleSearch=(e)=>{
+      const term  = e.target.value;
+      fetchEmployees(term);
     }
     return (
-        <div className=" flex  justify-center text-center align-middle my-5 items-center">
+        <div className=" flex  justify-center text-center align-middle my-24 items-center">
         <div>
         <h1 className="  bg-black p-2 rounded-xl text-red-600 font-semibold text-3xl">Employees Mangement System</h1>
      <br/>
      <div className=" border-zinc-400 border p-1 rounded-xm border-spacing-2">
       <div className="justify-between flex">
         <button className="bg-blue-500 rounded-sm text-xl font-sans px-1" onClick={handleAddEmployee}>Add</button>
-        <input className="border border-spacing-2 rounded-xl px-1 border-zinc-700" type="text" placeholder="Search Employees" />
+        <div className="flex border   border-black" >
+        <input className=" " type="text" onChange={handleSearch} placeholder="Search Employees" />
+        <IoIosSearch className=" text-3xl text-black bg-zinc-400 "/>
+        </div>
       </div>
      <EmpolyeesTable
      handleedit={handleedit}
+     handledelete={handledelete}
      fetchEmployees={fetchEmployees}
      employees={Employeesdata.employees}
      pagination={Employeesdata.pagination}
      />
      <AddEmployees
+     editEmpobj ={editEmpobj}
      fetchEmployees={fetchEmployees}
       showModel={showModel}
        setshowModel={setshowModel}

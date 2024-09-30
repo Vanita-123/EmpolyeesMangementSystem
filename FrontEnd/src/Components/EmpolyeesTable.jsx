@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { CiEdit } from "react-icons/ci";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
-function EmployeesTable({ employees, pagination, fetchEmployees ,handleedit}) {
+
+function EmployeesTable({ employees, pagination, fetchEmployees ,handleedit , handledelete}) {
   const { currentPage, TotalPages } = pagination;
   const pageNumbers = Array.from({ length: TotalPages }, (_, index) => index + 1);
   const headers = ['Name', 'Email', 'Phone No.', 'Salary', 'Department', 'Action'];
@@ -8,17 +11,17 @@ function EmployeesTable({ employees, pagination, fetchEmployees ,handleedit}) {
   const TableRow = ({ employee }) => (
     <tr>
       <td>
-        <Link to={`/employees/${employee._id}`}>
-          {employee.name}
-        </Link>
+      <Link to={`/employees/${employee._id}`}>
+                {employee.name}
+              </Link>
       </td>
-      <td>{employee.email}</td>
+      <td >{employee.email}</td>
       <td>{employee.phone}</td>
       <td>{employee.salary}</td>
       <td>{employee.department}</td>
       <td>
-        <button onClick={handleedit} className="bg-green-600 text-white p-1 rounded">Edit</button>
-        <button className="bg-red-800 text-white p-1 rounded ml-2">Delete</button>
+        <button onClick={()=>{handleedit(employee)}} className="bg-green-600 text-white p-1 rounded"><CiEdit/></button>
+        <button onClick={()=>{handledelete(employee)}}  className="bg-red-800 text-white p-1 rounded ml-2"><RiDeleteBin6Line/></button>
       </td>
     </tr>
   );
@@ -41,9 +44,9 @@ function EmployeesTable({ employees, pagination, fetchEmployees ,handleedit}) {
 
   return (
     <div>
-      <table className="mt-5 bg-slate-200 border border-spacing-2 w-full">
+      <table className="mt-5 border border-spacing-2 ">
         <thead>
-          <tr>
+          <tr className="bg-black text-white">
             {headers.map((header, id) => (
               <th className="text-sm p-2 font-serif" key={id}>
                 {header}
@@ -51,7 +54,7 @@ function EmployeesTable({ employees, pagination, fetchEmployees ,handleedit}) {
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="bg-slate-300">
           {employees.map((emp) => (
             <TableRow key={emp._id} employee={emp} />
           ))}
@@ -61,7 +64,7 @@ function EmployeesTable({ employees, pagination, fetchEmployees ,handleedit}) {
         <div>Page {currentPage} of {TotalPages}</div>
         <div>
           <button
-            className="px-1 border border-spacing border-black hover:bg-blue-800"
+            className="px-1  hover:text-white border   border-zinc-400 bg-slate-300 hover:bg-blue-800"
             onClick={handlePrevPage}
             disabled={currentPage === 1}
           >
@@ -71,13 +74,13 @@ function EmployeesTable({ employees, pagination, fetchEmployees ,handleedit}) {
             <button
               key={page}
               onClick={() => handlePage(page)} 
-              className={`px-1 ${currentPage === page ? 'bg-blue-500 text-white' : ''}`} // Highlight active page
+              className={`px-1 ${currentPage === page ? 'bg-blue-500 mx-1 text-white' : ''}`} 
             >
               {page}
             </button>
           ))}
           <button
-            className="px-1 border border-spacing border-black hover:bg-blue-800"
+            className="px-1 border border-spacing border-zinc-400 bg-slate-300 hover:bg-blue-800 hover:text-white"
             onClick={handleNextPage}
             disabled={currentPage === TotalPages}
           >

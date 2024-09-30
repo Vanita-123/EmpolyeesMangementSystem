@@ -1,46 +1,61 @@
-import { useState } from "react"
-import { CreateEmplyees } from "./api/GetEmployees"
+import { useEffect, useState } from "react"
+import { CreateEmplyees, UpdateEmplyeesById } from "./api/GetEmployees"
+import { RxCross2 } from "react-icons/rx";
+import toast from "react-hot-toast";
 
-function AddEmployees({ showModel ,setshowModel, fetchEmployees}) {
+function AddEmployees({ showModel ,setshowModel, fetchEmployees ,editEmpobj}) {
   const [employee, setEmployee] = useState({
- name:'', email:'', phone:'', salary:'', department:' '})
+ name:'', email:'', phone:'', salary:'', department:''})
   const handleclose =()=>{
      setshowModel(!showModel)
   }
+
+  const [editbtn , seteditbtn ] =useState(false)
+
+  useEffect(()=>{
+    if(editEmpobj){
+seteditbtn(true)
+setEmployee(editEmpobj)
+    }
+
+  },[editEmpobj])
+
   const resetEmployee =()=>{
+
     setEmployee({    name:'', email:'', phone:'', salary:'', department:' '})
   }
   const handlechange=(e)=>{
 
     const {name, value}= e.target;
    setEmployee ({...employee, [name]:value})
+  
   }
 
   const handlesubmit = async(e)=>{
     e.preventDefault();
-    console.log(employee)
+    // console.log(employee)
     try {
-     const {success, message} = await CreateEmplyees(employee);
+     const {success, message} = 
+     editbtn ? await UpdateEmplyeesById(employee, employee._id) : await CreateEmplyees(employee);
      console.log(success,message)
      if(success){
-          console.log("sucess" ,success)
-       }
-        else{
-          console.log( "error" ,message)
+       toast.success("sucess" ,success)
+      }
+      else{
+      toast.success( "Update Sucessfully ! " ,message)
         }
         setshowModel(false)
         resetEmployee();
         fetchEmployees();
 
     } catch (error) {
-      console.log(error) 
+      toast.error(error) 
     }
   }
 
     return (
       <div
         className={`modal fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center ${
-        // className={`modal fixed inset-0  bg-opacity-75 flex justify-center items-center ${
           showModel ? 'block' : 'hidden'
         }`}
         tabIndex={-1}
@@ -50,8 +65,8 @@ function AddEmployees({ showModel ,setshowModel, fetchEmployees}) {
 
  <div className="flex justify-between mb-2">
 
-  <h1  className="flex text-red-500 bg-black px-2 font-semibold text-xl justify-center text-center"> Add Employees </h1>
-     <button type="button" onClick={handleclose} className=" flex  text-xl text-black bg-slate-200  border border-gray-600 px-1">X</button>
+  <h1  className="flex text-red-500 bg-black px-2 font-semibold text-xl justify-center text-center"> {editbtn ? 'UpdateEmploye' :'AddEmployees'} </h1>
+     <button type="button"  onClick={handleclose}  className=" flex  text-xl mt-1 text-black bg-slate-200  border border-gray-600 px-1"><RxCross2/></button>
  </div>
 
 <div>
@@ -78,11 +93,10 @@ function AddEmployees({ showModel ,setshowModel, fetchEmployees}) {
   </div> 
   <label>Department</label>
   <div>
-  <input name ="department" className="text-black border border-black m-1 px-3 py-1" type="text" onChange={handlechange} value={employee.departmenty} required  placeholder=" Department" />
+  <input name ="text" className="text-black border border-black m-1 px-3 py-1" type="text" onChange={handlechange} placeholder=" Department"  value={employee.department} required  />
   </div>
-
 <div>
-  <button onClick={handleclose} type= "submit" className="bg-blue-600 px-3 font-semibold text-xl rounded-md mt-1">Save</button>
+  <button onClick={handleclose} type= "submit" className="bg-blue-600 px-3 font-semibold text-xl rounded-md mt-1 hover:bg-blue-300">{editbtn? 'Update':'Save'}</button>
 </div>
 </form>
   </div>    
