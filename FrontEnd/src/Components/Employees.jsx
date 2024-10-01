@@ -22,7 +22,7 @@ function Employees(){
 const {data} = await GetEmplyees(search, page,limit)
 
 setEmployeesdata(data);
-console.log("json",data);
+// console.log("json",data);
         
       } catch (error) {
         console.log ("error" ,error)
@@ -41,9 +41,8 @@ console.log("json",data);
     }
     const handleedit =(empObj)=>{
       setshowModel(true)
-        // console.log("hello")
       seteditEmpobj(empObj)
-      console.log("EditObject" ,empObj)
+      // console.log("EditObject" ,empObj)
     }
     const handledelete = async(emp)=>{
       try {
@@ -55,7 +54,7 @@ console.log("json",data);
          toast.success( "Sucessfully! deleted " ,message)
            }
       }        catch(error){
-        console.log(error)
+        toast.error(error)
       }
     }
     const handleSearch=(e)=>{

@@ -2,8 +2,6 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import Employees from "./Components/Employees"
 import EmployeesDetails from "./Components/EmpolyeesDetails"
 import { Toaster } from "react-hot-toast";
-
-
 function App() {
   return (
     <div>
@@ -12,7 +10,6 @@ function App() {
         <Route path ="/" element = {<Navigate to = "employees"/>} />
         <Route path ="/employees" element = {<Employees/>} />
         <Route path ="/employees/:id" element = {<EmployeesDetails/>} />
-         {/* <h1>hello</h1> */}
       </Routes>
       <Toaster />
 
